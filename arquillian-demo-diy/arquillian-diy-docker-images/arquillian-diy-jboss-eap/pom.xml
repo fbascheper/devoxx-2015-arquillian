@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>nl.famscheper</groupId>
+        <artifactId>arquillian-diy-docker-images</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>arquillian-diy-jboss-eap</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Arquillian demo JBoss - docker image</name>
+    <description>Arquillian demo JBoss - docker image</description>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>net.wouterdanes.docker</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>build-diy-jboss-image</id>
+                        <goals>
+                            <goal>build-images</goal>
+                        </goals>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <id>Arquillian-demo-JBoss-EAP-server</id>
+                                    <dockerFile>${project.build.outputDirectory}/Dockerfile</dockerFile>
+                                    <keep>true</keep>
+                                    <artifacts>
+                                        <artifact>
+                                            <file>${project.build.outputDirectory}/docker-entrypoint-initdb.d</file>
+                                            <dest>/docker-entrypoint-initdb.d</dest>
+                                        </artifact>
+                                        <artifact>
+                                            <file>${project.build.outputDirectory}/modules</file>
+                                            <dest>/modules</dest>
+                                        </artifact>
+                                        <artifact>
+                                            <file>${project.build.outputDirectory}/conf</file>
+                                            <dest>/conf</dest>
+                                        </artifact>
+                                    </artifacts>
+                                    <keep>true</keep>
+                                    <!--<push>true</push>-->
+                                    <!--<registry>mydocker-registry.corp.com:5000</registry>-->
+                                    <nameAndTag>fbascheper/demo-jboss-eap:1.0-SNAPSHOT</nameAndTag>
+                                </image>
+                            </images>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>

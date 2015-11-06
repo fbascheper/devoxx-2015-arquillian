@@ -1,0 +1,7 @@
+<module xmlns="urn:jboss:module:1.1" name="nl.famscheper.configuration" slot="main">
+    <resources>
+        <resource-root path="conf"/>
+        <!-- Insert resources here -->
+    </resources>
+</module>
+

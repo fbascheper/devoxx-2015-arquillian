@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arquillian xmlns="http://jboss.org/schema/arquillian"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+
+
+    <container qualifier="JBoss-EAP6-remote" >
+        <protocol type="Servlet 3.0"/>
+        <configuration>
+            <!-- These properties are set by the maven docker plugin -->
+            <property name="managementAddress">${docker.host.ip.address}</property>
+            <property name="managementPort">${jboss.mgmt.port}</property>
+
+            <!-- These properties are defined in the maven pom-file -->
+            <property name="username">${docker.jboss-admin.username}</property>
+            <property name="password">${docker.jboss-admin.password}</property>
+        </configuration>
+    </container>
+
+    <container qualifier="JBoss-EAP6-managed" default="true">
+        <protocol type="Servlet 3.0"/>
+        <configuration>
+            <property name="jbossHome">${jboss.eap.install.dir}</property>
+            <!--<property name="javaHome">/Library/Java/JavaVirtualMachines/jdk1.7.0_72.jdk</property>-->
+            <property name="javaVmArguments">-Xmx768m</property>
+
+            <!--Should the server startup console log be piped to the console-->
+            <property name="outputToConsole">true</property>
+
+            <!--Time to wait before throwing Exception on server startup.-->
+            <property name="startupTimeoutInSeconds">30</property>
+
+            <!--Which server configuration file to startup with-->
+            <!--<property name="serverConfig">standalone.xml</property>-->
+
+            <!--The ip address of the running server instances manage interface-->
+            <!--<property name="managementAddress">127.0.0.1</property>-->
+
+            <!--The management port for deployment-->
+            <!--<property name="managementPort">9999</property>-->
+
+            <!-- If true, if a running AS is found on managementPort, it is used; if false, fails. -->
+            <property name="allowConnectingToRunningServer">true</property>
+
+            <!-- The username for the ManagementRealm (not required by default) -->
+            <!--<property name="username">null</property>-->
+            <!--<property name="password">null</property>-->
+
+        </configuration>
+    </container>
+
+    <extension qualifier="transaction">
+        <property name="manager">java:jboss/UserTransaction</property>
+    </extension>
+
+    <extension qualifier="persistence">
+        <property name="defaultDataSource">java:jboss/datasources/TenderNedDS</property>
+        <!--<property name="defaultDataSeedStrategy">CLEAN_INSERT</property>-->
+    </extension>
+
+    <extension qualifier="persistence-dbunit">
+        <property name="datatypeFactory">org.dbunit.ext.postgresql.PostgresqlDataTypeFactory</property>
+    </extension>
+</arquillian>

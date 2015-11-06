@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>nl.famscheper</groupId>
+        <artifactId>arquillian-demo-build</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>arquillian-demo-diy</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Arquillian demo DIY</name>
+    <description>Arquillian demo DIY</description>
+
+    <modules>
+        <module>arquillian-diy-docker-images</module>
+        <module>arquillian-diy-domain-integration-tests</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>nl.famscheper</groupId>
+                <artifactId>arquillian-demo-domain-model</artifactId>
+                <version>${project.version}</version>
+                <type>jar</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

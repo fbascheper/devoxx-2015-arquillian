@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="urn:jboss:module:1.1" name="org.apache.deltaspike.module.security" slot="1.5.1">
+    <resources>
+        <resource-root path="deltaspike-security-module-api-1.5.1.jar"/>
+        <resource-root path="deltaspike-security-module-impl-1.5.1.jar"/>
+    </resources>
+
+    <dependencies>
+        <module name="org.apache.deltaspike.core" slot="1.5.1"/>
+
+        <module name="javax.api" />
+        <module name="javax.el.api" />
+        <module name="javax.enterprise.api"/>
+        <module name="javax.inject.api"/>
+        <module name="javax.interceptor.api"/>
+        <module name="javax.faces.api"/>
+        <module name="org.javassist" />
+        <module name="org.jboss.weld.core" />
+    </dependencies>
+</module>
+

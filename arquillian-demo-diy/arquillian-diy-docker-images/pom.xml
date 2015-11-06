@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>nl.famscheper</groupId>
+        <artifactId>arquillian-demo-diy</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>arquillian-diy-docker-images</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Arquillian demo Docker images - Root</name>
+    <description>Arquillian demo Docker images Root</description>
+
+    <modules>
+        <module>arquillian-diy-postgres-db</module>
+        <module>arquillian-diy-jboss-eap</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>nl.famscheper</groupId>
+                <artifactId>arquillian-demo-domain-model</artifactId>
+                <version>${project.version}</version>
+                <classifier>sql-scripts</classifier>
+                <type>sql</type>
+                <optional>true</optional>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
