@@ -1,7 +1,7 @@
 /*
  * Copyright 2009-2015 PIANOo; TenderNed programma.
  */
-package nl.famscheper.devoxx.util;
+package nl.famscheper.devoxx.test.util;
 
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;

@@ -3,15 +3,15 @@
 
     <parent>
         <groupId>nl.famscheper</groupId>
-        <artifactId>arquillian-demo-diy</artifactId>
+        <artifactId>arquillian-demo-02-diy-run-linked-containers</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>arquillian-diy-domain-integration-tests</artifactId>
     <packaging>jar</packaging>
 
-    <name>Arquillian demo domain model - integration tests</name>
-    <description>Arquillian demo domain model - integration tests</description>
+    <name>Arquillian demo 02 - DIY run and link containers (Integration tests)</name>
+    <description>Arquillian demo 02 - DIY run and link containers (Integration tests)</description>
 
     <build>
         <testResources>
@@ -141,7 +141,12 @@
         <dependency>
             <groupId>nl.famscheper</groupId>
             <artifactId>arquillian-demo-domain-model</artifactId>
-            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>nl.famscheper</groupId>
+            <artifactId>arquillian-demo-domain-model</artifactId>
+            <scope>test</scope>
+            <classifier>tests</classifier>
         </dependency>
 
         <!-- Java EE spec dependencies. -->

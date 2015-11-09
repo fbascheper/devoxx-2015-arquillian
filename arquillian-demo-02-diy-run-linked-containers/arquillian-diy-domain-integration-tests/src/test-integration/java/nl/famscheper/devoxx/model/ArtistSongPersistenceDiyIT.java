@@ -11,7 +11,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import nl.famscheper.devoxx.util.ArquillianDeploymentSupport;
+import nl.famscheper.devoxx.test.util.ArquillianDeploymentSupport;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -25,15 +25,15 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 
 /**
- * Arquillian integrationtest used to test the persistence of {@link Artist}s and {@link Song}s using PostgreSQL.
+ * Arquillian DIY integration test used to test the persistence of {@link Artist}s and {@link Song}s using PostgreSQL.
  *
  * @author Erik-Berndt Scheper
  * @since 06-11-2015
  */
 @RunWith(Arquillian.class)
-public class ArtistSongPersistenceIT {
+public class ArtistSongPersistenceDiyIT {
 
-    private static final Logger LOGGER = getLogger(ArtistSongPersistenceIT.class);
+    private static final Logger LOGGER = getLogger(ArtistSongPersistenceDiyIT.class);
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -42,7 +42,7 @@ public class ArtistSongPersistenceIT {
 
     @Deployment
     public static Archive<?> createDeploymentPackage() {
-        return ArquillianDeploymentSupport.createIntegrationTestArchive(ArtistSongPersistenceIT.class.getSimpleName().toLowerCase() + ".war");
+        return ArquillianDeploymentSupport.createIntegrationTestArchive(ArtistSongPersistenceDiyIT.class.getSimpleName().toLowerCase() + ".war");
     }
 
     /**

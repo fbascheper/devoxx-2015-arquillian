@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>nl.famscheper</groupId>
@@ -37,16 +38,21 @@
         <dependency.org.javassist.javassist.version>3.19.0-GA</dependency.org.javassist.javassist.version>
         <dependency.org.jboss.arquillian.container.arquillian-container-osgi>1.0.3.Final</dependency.org.jboss.arquillian.container.arquillian-container-osgi>
         <dependency.org.jboss.arquillian.extension.arquillian-drone-bom>2.0.0.Alpha4</dependency.org.jboss.arquillian.extension.arquillian-drone-bom>
-        <dependency.org.jboss.arquillian.extension.arquillian-persistence-core>1.0.0.Alpha7</dependency.org.jboss.arquillian.extension.arquillian-persistence-core>
-        <dependency.org.jboss.arquillian.extension.arquillian-transaction-bom>1.0.1.Final</dependency.org.jboss.arquillian.extension.arquillian-transaction-bom>
+        <dependency.org.jboss.arquillian.extension.arquillian-persistence-core>1.0.0.Alpha7
+        </dependency.org.jboss.arquillian.extension.arquillian-persistence-core>
+        <dependency.org.jboss.arquillian.extension.arquillian-transaction-bom>1.0.1.Final
+        </dependency.org.jboss.arquillian.extension.arquillian-transaction-bom>
+        <dependency.org.arquillian.cube.arquillian-cube-docker.version>1.0.0.Alpha7</dependency.org.arquillian.cube.arquillian-cube-docker.version>
         <dependency.org.jboss.arquillian.arquillian-bom>1.1.10.Final</dependency.org.jboss.arquillian.arquillian-bom>
         <dependency.org.jboss.arquillian.graphene.arquillian-graphene>2.1.0.Alpha2</dependency.org.jboss.arquillian.graphene.arquillian-graphene>
         <dependency.org.jboss.arquillian.selenium.selenium-bom>2.45.0</dependency.org.jboss.arquillian.selenium.selenium-bom>
         <dependency.org.jboss.as.jboss-as-arquillian-container-managed>7.2.0.Final</dependency.org.jboss.as.jboss-as-arquillian-container-managed>
         <dependency.org.jboss.as.jboss-as-arquillian-container-remote>7.2.0.Final</dependency.org.jboss.as.jboss-as-arquillian-container-remote>
         <dependency.org.jboss.shrinkwrap.shrinkwrap-bom>1.2.3</dependency.org.jboss.shrinkwrap.shrinkwrap-bom>
-        <dependency.org.jboss.spec.javax.servlet.jboss-servlet-api_3.0.version>1.0.2.Final</dependency.org.jboss.spec.javax.servlet.jboss-servlet-api_3.0.version>
-        <dependency.org.jboss.spec.javax.servlet.jsp.jboss-jsp-api_2.2_spec.version>1.0.2.Final</dependency.org.jboss.spec.javax.servlet.jsp.jboss-jsp-api_2.2_spec.version>
+        <dependency.org.jboss.spec.javax.servlet.jboss-servlet-api_3.0.version>1.0.2.Final
+        </dependency.org.jboss.spec.javax.servlet.jboss-servlet-api_3.0.version>
+        <dependency.org.jboss.spec.javax.servlet.jsp.jboss-jsp-api_2.2_spec.version>1.0.2.Final
+        </dependency.org.jboss.spec.javax.servlet.jsp.jboss-jsp-api_2.2_spec.version>
         <dependency.org.jboss.spec.javax.transaction.version>1.0.1.Final</dependency.org.jboss.spec.javax.transaction.version>
         <dependency.org.postgresql.driver.version>9.4-1205-jdbc42</dependency.org.postgresql.driver.version>
         <dependency.org.reflections.reflections.version>0.9.9</dependency.org.reflections.reflections.version>
@@ -140,7 +146,7 @@
     </prerequisites>
 
     <dependencyManagement>
-    	   <dependencies>
+        <dependencies>
             <!-- PROVIDED dependencies (i.e. by the container) -->
             <dependency>
                 <groupId>commons-collections</groupId>
@@ -363,7 +369,6 @@
             </dependency>
 
 
-
             <!-- TEST dependencies -->
             <dependency>
                 <groupId>junit</groupId>
@@ -471,6 +476,18 @@
                 <version>${dependency.org.jboss.arquillian.extension.arquillian-transaction-bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.arquillian.cube</groupId>
+                <artifactId>arquillian-cube-docker</artifactId>
+                <version>${dependency.org.arquillian.cube.arquillian-cube-docker.version}</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.bouncycastle</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.jboss.arquillian.graphene</groupId>
@@ -718,7 +735,7 @@
                         <version>6</version>
                         <defaultLibBundleDir>lib</defaultLibBundleDir>
                         <generateModuleId>true</generateModuleId>
-                        <security />
+                        <security/>
 
                         <archive>
                             <manifest>

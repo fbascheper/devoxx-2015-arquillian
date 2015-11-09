@@ -21,7 +21,9 @@
     <modules>
         <module>arquillian-demo-parent</module>
         <module>arquillian-demo-domain-model</module>
-        <module>arquillian-demo-diy</module>
+        <module>arquillian-demo-01-build-docker-images</module>
+        <module>arquillian-demo-02-diy-run-linked-containers</module>
+        <module>arquillian-demo-03-cube</module>
     </modules>
 
 

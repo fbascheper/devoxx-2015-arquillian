@@ -3,15 +3,15 @@
 
     <parent>
         <groupId>nl.famscheper</groupId>
-        <artifactId>arquillian-diy-docker-images</artifactId>
+        <artifactId>arquillian-demo-01-build-docker-images</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>arquillian-diy-jboss-eap</artifactId>
+    <artifactId>arquillian-diy-postgres-db</artifactId>
     <packaging>jar</packaging>
 
-    <name>Arquillian demo JBoss - docker image</name>
-    <description>Arquillian demo JBoss - docker image</description>
+    <name>Arquillian demo 01 - Build docker images (Postgres DB image)</name>
+    <description>Arquillian demo 01 - Build docker images (Postgres DB image)</description>
 
     <build>
         <resources>
@@ -22,18 +22,39 @@
 
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-database-exports</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeGroupIds>nl.famscheper</includeGroupIds>
+                            <includeArtifactIds>arquillian-demo-domain-model</includeArtifactIds>
+                            <includeClassifiers>sql-scripts</includeClassifiers>
+                            <outputDirectory>${project.build.outputDirectory}/docker-entrypoint-initdb.d/dependencies</outputDirectory>
+                            <stripVersion>true</stripVersion>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>net.wouterdanes.docker</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>build-diy-jboss-image</id>
+                        <id>build-arquillian-demo-postgres-db-image</id>
                         <goals>
                             <goal>build-images</goal>
                         </goals>
                         <configuration>
                             <images>
                                 <image>
-                                    <id>Arquillian-demo-JBoss-EAP-server</id>
+                                    <id>arquillian-diy-postgres-db</id>
                                     <dockerFile>${project.build.outputDirectory}/Dockerfile</dockerFile>
                                     <keep>true</keep>
                                     <artifacts>
@@ -42,18 +63,14 @@
                                             <dest>/docker-entrypoint-initdb.d</dest>
                                         </artifact>
                                         <artifact>
-                                            <file>${project.build.outputDirectory}/modules</file>
-                                            <dest>/modules</dest>
-                                        </artifact>
-                                        <artifact>
-                                            <file>${project.build.outputDirectory}/conf</file>
-                                            <dest>/conf</dest>
+                                            <file>${project.build.outputDirectory}/deb</file>
+                                            <dest>/tmp/deb</dest>
                                         </artifact>
                                     </artifacts>
                                     <keep>true</keep>
                                     <!--<push>true</push>-->
                                     <!--<registry>mydocker-registry.corp.com:5000</registry>-->
-                                    <nameAndTag>fbascheper/demo-jboss-eap:1.0-SNAPSHOT</nameAndTag>
+                                    <nameAndTag>fbascheper/arquillian-diy-postgres-db:1.0-SNAPSHOT</nameAndTag>
                                 </image>
                             </images>
                         </configuration>
@@ -63,4 +80,14 @@
 
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>nl.famscheper</groupId>
+            <artifactId>arquillian-demo-domain-model</artifactId>
+            <classifier>sql-scripts</classifier>
+            <type>sql</type>
+        </dependency>
+    </dependencies>
+
 </project>

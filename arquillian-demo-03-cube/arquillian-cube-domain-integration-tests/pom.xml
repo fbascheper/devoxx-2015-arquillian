@@ -3,36 +3,71 @@
 
     <parent>
         <groupId>nl.famscheper</groupId>
-        <artifactId>arquillian-demo-build</artifactId>
+        <artifactId>arquillian-demo-03-cube</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>arquillian-demo-domain-model</artifactId>
+    <artifactId>arquillian-cube-domain-integration-tests</artifactId>
     <packaging>jar</packaging>
 
-    <name>Arquillian demo domain model</name>
-    <description>Arquillian demo domain model</description>
+    <name>Arquillian demo 03 - CUBE extension (Integration tests)</name>
+    <description>Arquillian demo 03 - CUBE extension (Integration tests)</description>
 
     <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/java</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </testResource>
+            <testResource>
+                <directory>src/test-integration/java</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </testResource>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>src/test-integration/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>src/test-integration/filter-resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+
         <plugins>
             <plugin>
-                <groupId>de.juplo</groupId>
-                <artifactId>hibernate4-maven-plugin</artifactId>
-                <version>${version.de.juplo.hibernate4-maven-plugin}</version>
-                <executions>
-                    <execution>
-                        <id>export-postgresql</id>
-                        <goals>
-                            <goal>export</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <hibernateDialect>org.hibernate.dialect.PostgreSQL82Dialect</hibernateDialect>
-                    <outputFile>${project.basedir}/src-gen/main/scripts/create-postgres-db.sql</outputFile>
-                    <target>SCRIPT</target>
-                    <type>CREATE</type>
-                    <format>true</format>
+                    <excludes>
+                        <exclude>**/*.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <skipITs>${maven.failsafe.skip.arquillian.tests}</skipITs>
+                    <includes>
+                        <include>**/*IT.java</include>
+                        <include>**/*Test.java</include>
+                    </includes>
                 </configuration>
             </plugin>
 
@@ -41,49 +76,16 @@
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>attach-sql-artifacts</id>
-                        <phase>package</phase>
+                        <!-- Add integration test sources -->
+                        <id>add-integration-test-sources</id>
+                        <phase>generate-test-sources</phase>
                         <goals>
-                            <goal>attach-artifact</goal>
+                            <goal>add-test-source</goal>
                         </goals>
                         <configuration>
-                            <artifacts>
-                                <artifact>
-                                    <file>${project.basedir}/src-gen/main/scripts/create-postgres-db.sql</file>
-                                    <type>sql</type>
-                                    <classifier>sql-scripts</classifier>
-                                </artifact>
-                            </artifacts>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>jar</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>target/jar</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>test</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>test-jar</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>target/tests</outputDirectory>
-                            <includes>
-                                <include>nl/famscheper/devoxx/test/util/**/*</include>
-                            </includes>
+                            <sources>
+                                <source>src/test-integration/java</source>
+                            </sources>
                         </configuration>
                     </execution>
                 </executions>
@@ -92,6 +94,17 @@
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>nl.famscheper</groupId>
+            <artifactId>arquillian-demo-domain-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>nl.famscheper</groupId>
+            <artifactId>arquillian-demo-domain-model</artifactId>
+            <scope>test</scope>
+            <classifier>tests</classifier>
+        </dependency>
+
         <!-- Java EE spec dependencies. -->
         <dependency>
             <groupId>javax.enterprise</groupId>
@@ -142,7 +155,6 @@
             <artifactId>hibernate-validator</artifactId>
         </dependency>
 
-
         <!-- Test dependencies. -->
         <dependency>
             <groupId>junit</groupId>
@@ -165,6 +177,11 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.arquillian.cube</groupId>
+            <artifactId>arquillian-cube-docker</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
