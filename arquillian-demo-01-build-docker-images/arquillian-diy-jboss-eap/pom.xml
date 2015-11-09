@@ -53,7 +53,7 @@
                                     <keep>true</keep>
                                     <!--<push>true</push>-->
                                     <!--<registry>mydocker-registry.corp.com:5000</registry>-->
-                                    <nameAndTag>fbascheper/demo-jboss-eap:1.0-SNAPSHOT</nameAndTag>
+                                    <nameAndTag>fbascheper/arquillian-diy-jboss-eap:1.0-SNAPSHOT</nameAndTag>
                                 </image>
                             </images>
                         </configuration>

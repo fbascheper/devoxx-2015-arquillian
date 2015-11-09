@@ -1074,7 +1074,7 @@
 
 
                             <image>
-                                <name>fbascheper/demo-jboss-eap:1.0-SNAPSHOT</name>
+                                <name>fbascheper/arquillian-diy-jboss-eap:1.0-SNAPSHOT</name>
                                 <alias>diy-jboss-eap</alias>
                                 <run>
                                     <links>
@@ -1240,6 +1240,7 @@
         </profile>
 
         <profile>
+            <!-- Arquillian - REMOTE - Profile -->
             <id>arquillian.remote</id>
             <activation>
                 <property>
@@ -1294,6 +1295,7 @@
         </profile>
 
         <profile>
+            <!-- Arquillian - MANAGED - Profile -->
             <id>arquillian.managed</id>
             <activation>
                 <property>
@@ -1337,6 +1339,63 @@
                 <dependency>
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-managed</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.container</groupId>
+                    <artifactId>arquillian-container-osgi</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <!-- Arquillian - CUBE - Profile -->
+            <id>arquillian.cube</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>cube</value>
+                </property>
+            </activation>
+
+            <properties>
+                <maven.failsafe.skip.arquillian.tests>false</maven.failsafe.skip.arquillian.tests>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${version.surefire.plugin}</version>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <arquillian.launch>JBoss-EAP6-xxx</arquillian.launch>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${version.failsafe.plugin}</version>
+                        <configuration>
+                            <!--<systemPropertyVariables>-->
+                                <!--<arquillian.launch>JBoss-EAP6-cube</arquillian.launch>-->
+                            <!--</systemPropertyVariables>-->
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+
+            <dependencies>
+                <dependency>
+                    <groupId>org.arquillian.cube</groupId>
+                    <artifactId>arquillian-cube-docker</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.as</groupId>
+                    <artifactId>jboss-as-arquillian-container-remote</artifactId>
                 </dependency>
                 <dependency>
                     <groupId>org.jboss.arquillian.container</groupId>

@@ -1,0 +1,9 @@
+app:
+  image: fbascheper/arquillian-diy-jboss-eap:1.0-SNAPSHOT
+  working_dir: /go/src/simple-golang-app
+  command: go run main.go
+  volumes:
+    - ./simple-golang-app:/go/src/simple-golang-app
+
+database:
+  image: fbascheper/arquillian-diy-postgres-db:1.0-SNAPSHOT
