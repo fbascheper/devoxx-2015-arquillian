@@ -5,12 +5,16 @@ package nl.famscheper.devoxx.model;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.sameInstance;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 import static org.slf4j.LoggerFactory.getLogger;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import nl.famscheper.devoxx.service.ArtistService;
 import nl.famscheper.devoxx.test.util.ArquillianDeploymentSupport;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -34,11 +38,13 @@ import org.slf4j.Logger;
 public class ArtistSongPersistenceDiyIT {
 
     private static final Logger LOGGER = getLogger(ArtistSongPersistenceDiyIT.class);
+    private static Long peteSeegerId = null;
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    private static Long peteSeegerId = null;
+    @Inject
+    private ArtistService artistService;
 
     @Deployment
     public static Archive<?> createDeploymentPackage() {
@@ -46,7 +52,7 @@ public class ArtistSongPersistenceDiyIT {
     }
 
     /**
-     * Persist initial entity, without lob.
+     * Persist a song without an artist (not allowed).
      */
     @Test
     //    @UsingDataSet(value = {"data/entity/LobEntityPersistIT-data.xml"})
@@ -64,7 +70,7 @@ public class ArtistSongPersistenceDiyIT {
     }
 
     /**
-     * Persist initial entity, without lob.
+     * Persist initial artist, without songs.
      */
     @Test
     //    @UsingDataSet(value = {"data/entity/LobEntityPersistIT-data.xml"})
@@ -85,12 +91,12 @@ public class ArtistSongPersistenceDiyIT {
     }
 
     /**
-     * Update entity with a lob.
+     * Add a song to an artist, using the {@link ArtistService#addSong(Long, Song)} method.
      */
     @Test
     //    @UsingDataSet(value = {"data/entity/LobEntityPersistIT-data.xml"})
     //    @Cleanup(phase = TestExecutionPhase.AFTER, strategy = CleanupStrategy.USED_ROWS_ONLY)
-    @Transactional(TransactionMode.COMMIT)
+    @Transactional(TransactionMode.ROLLBACK)
     @InSequence(3)
     public void testAddSongToArtist() {
         assertThat(peteSeegerId, notNullValue());
@@ -101,13 +107,23 @@ public class ArtistSongPersistenceDiyIT {
         LOGGER.info("**** Found Artist = {} ***", found);
 
         assertThat(found.getId(), is(peteSeegerId));
-        assertThat(found.getSongs().size(), is(0));
+        int initialSongCount = found.getSongs().size();
 
         Song song = new Song();
         song.setArtist(found);
         song.setName("We shall overcome");
 
-        entityManager.persist(song);
+        artistService.addSong(found.getId(), song);
+
+        // clear current persistence context
+        entityManager.clear();
+
+        Artist updated = entityManager.find(Artist.class, peteSeegerId);
+
+        assertThat(found, not(sameInstance(updated)));
+
+        assertThat(found.getSongs().size(), is(initialSongCount));
+        assertThat(updated.getSongs().size(), is(initialSongCount + 1));
     }
 
 }

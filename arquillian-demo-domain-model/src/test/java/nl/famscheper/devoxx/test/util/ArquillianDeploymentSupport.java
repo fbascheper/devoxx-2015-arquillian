@@ -28,6 +28,7 @@ public final class ArquillianDeploymentSupport {
 
         WebArchive result = ShrinkWrap.create(WebArchive.class, archiveName)
                 .addPackages(true, "nl/famscheper/devoxx/model")
+                .addPackages(true, "nl/famscheper/devoxx/service")
                 .addPackages(true, "nl/famscheper/devoxx/util");
 
         result.addClasses(org.junit.runner.notification.Failure.class)

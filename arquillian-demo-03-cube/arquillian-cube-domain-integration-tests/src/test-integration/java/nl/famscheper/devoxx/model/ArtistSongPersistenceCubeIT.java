@@ -46,7 +46,7 @@ public class ArtistSongPersistenceCubeIT {
     }
 
     /**
-     * Persist initial entity, without lob.
+     * Persist a song without an artist (not allowed).
      */
     @Test
     //    @UsingDataSet(value = {"data/entity/LobEntityPersistIT-data.xml"})
@@ -64,7 +64,7 @@ public class ArtistSongPersistenceCubeIT {
     }
 
     /**
-     * Persist initial entity, without lob.
+     * Persist initial artist, without songs.
      */
     @Test
     //    @UsingDataSet(value = {"data/entity/LobEntityPersistIT-data.xml"})
@@ -85,7 +85,7 @@ public class ArtistSongPersistenceCubeIT {
     }
 
     /**
-     * Update entity with a lob.
+     * Add a song to an artist, using the {@link #entityManager}.
      */
     @Test
     //    @UsingDataSet(value = {"data/entity/LobEntityPersistIT-data.xml"})
